@@ -2,6 +2,7 @@ RSpec.describe Pipeliner::Pipeline do
   context "normal behavior" do
     class Test1
       include Pipeliner::Pipeline
+
       pipeline :do_something_1,
                :do_something_2
 
@@ -26,6 +27,7 @@ RSpec.describe Pipeliner::Pipeline do
   context "fail early behavior" do
     class Test2
       include Pipeliner::Pipeline
+
       pipeline :do_something_1,
                :do_something_2
 

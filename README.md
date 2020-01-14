@@ -22,7 +22,58 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Simply including the `Pipeliner::Pipeline` into a class:
+```
+class Example
+  include Pipeliner::Pipeline
+
+  pipeline :do_something_1,
+           :do_something_2
+
+  def do_something_1(context)
+    context.step1 = true
+  end
+
+  def do_something_2(context)
+    context.processed_params = context.param_1.to_sym
+  end
+end
+
+result = Example.call(param_1: "some_value")
+pp result.step1
+=> true
+
+pp result.processed_params
+=> some_value
+```
+
+Pipeliner gem can fail early and stop processing the pipeline and return an error state.
+
+```
+class ErrorExample
+  include Pipeliner::Pipeline
+
+  pipeline :do_something_1,
+           :do_something_2
+
+  def do_something_1(context)
+    # Something went wrong
+    fail!("Did uppsie!")
+  end
+
+  def do_something_2(context)
+    context.done = true
+  end
+end
+
+
+result = ErrorExample.call()
+pp result.failure?
+=> true
+
+pp result.error
+=> "Did uppsie!"
+```
 
 ## Development
 
